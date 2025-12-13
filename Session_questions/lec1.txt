@@ -1,0 +1,70 @@
+-- -- ===========================================
+-- --  Create Tables
+-- -- ===========================================
+-- CREATE TABLE Client (
+--   c_id INT PRIMARY KEY,
+--   c_name TEXT
+-- );
+
+-- CREATE TABLE Service (
+--   s_id INT PRIMARY KEY,
+--   s_name TEXT,
+--   s_discount INT,
+--   s_amount INT
+-- );
+
+-- CREATE TABLE Invoice (
+--   invoice_id INT PRIMARY KEY,
+--   invoice_date DATE,
+--   client_id INT REFERENCES Client(c_id),
+--   service_id INT REFERENCES Service(s_id),
+--   hours_worked INT
+-- );
+
+-- -- ===========================================
+--  Create VIEW
+-- -- ===========================================
+-- CREATE VIEW vw_invoice_view AS
+-- SELECT
+--     i.invoice_id,
+--     i.invoice_date,
+--     c.c_name AS client_name,
+--     s.s_name AS service_name,
+--     (s.s_amount * i.hours_worked - s.s_discount) AS final_amount
+-- FROM Invoice i
+-- JOIN Client c ON i.client_id = c.c_id
+-- JOIN Service s ON i.service_id = s.s_id;
+
+-- -- ===========================================
+-- --  Insert Sample Data
+-- -- ===========================================
+-- INSERT INTO Client VALUES
+-- (10, 'Dikshay Pvt Ltd'),
+-- (21, 'TechCorp Solutions');
+
+-- INSERT INTO Service VALUES
+-- (101, 'Web Development', 200, 1000),
+-- (102, 'API Integration', 150, 800);
+
+-- INSERT INTO Invoice VALUES
+-- (1011, '2025-01-01', 1, 101, 5),
+-- (1012, '2025-01-05', 2, 102, 3);
+
+-- -- ===========================================
+-- --  Create Role and Grant Permissions
+-- -- ===========================================
+-- CREATE ROLE report_user LOGIN PASSWORD 'your_password';
+
+-- GRANT USAGE ON SCHEMA public TO report_user;
+
+-- GRANT SELECT ON Client TO report_user;
+-- GRANT SELECT ON Service TO report_user;
+-- GRANT SELECT ON Invoice TO report_user;
+-- GRANT SELECT ON vw_invoice_view TO report_user;
+
+-- G1_23bcs11096_Session1_Dikshay
+
+-- ===========================================
+-- --  Final Output
+-- -- ===========================================
+SELECT * FROM vw_invoice_view;
